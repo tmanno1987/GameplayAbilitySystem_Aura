@@ -12,6 +12,8 @@ AAuraPlayerState::AAuraPlayerState()
 
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+
 	NetUpdateFrequency = 100.f;
 }
 
