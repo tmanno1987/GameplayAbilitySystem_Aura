@@ -10,9 +10,9 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UGameplayEffect;
 
 UCLASS(Abstract)
-
 class AURA_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
@@ -33,6 +33,11 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
+	void InitializePrimaryAttributes() const;
 
 	virtual void InitAbilityActorInfo();
 };
