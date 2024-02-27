@@ -31,24 +31,31 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
+
+	/* Cursor Trace */
+
+	void CursorTrace();
+	IEnemyInterface* LastActor;
+	IEnemyInterface* ThisActor;
+	FHitResult CursorHit;
+
+	/* Input Actions */
+
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
 
-	void Move(const FInputActionValue& InputActionValue);
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UAuraInputConfig> InputConfig;
 
-	void CursorTrace();
-	IEnemyInterface* LastActor;
-	IEnemyInterface* ThisActor;
-	
+	void Move(const FInputActionValue& InputActionValue);
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	TObjectPtr<UAuraInputConfig> InputConfig;
+	/* Ability System Component */
 
 	UPROPERTY()
 	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
@@ -56,6 +63,7 @@ private:
 	UAuraAbilitySystemComponent* GetASC();
 
 	/* Spline Component Properties */
+
 	FVector CachedDestination = FVector::ZeroVector;
 	float FollowTime = 0.f;
 	float ShortPressThreshold = 0.5f;
