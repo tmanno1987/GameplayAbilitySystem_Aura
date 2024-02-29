@@ -11,8 +11,9 @@ public class Aura : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] 
 		{ 
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
-			"GameplayAbilities", "GameplayTags", "GameplayTasks", "NavigationSystem"
-		});
+			"GameplayAbilities", "GameplayTags", "GameplayTasks", "NavigationSystem",
+            "Niagara"
+        });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
