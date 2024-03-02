@@ -128,4 +128,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("InputTag.4"),
 		FString("Input Tag for 4 Key")
 	);
+
+	/**
+	 *	Gameplay Effect Tags
+	 */
+
+	GameplayTags.Effect_HitReaction = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Effect.HitReaction"),
+		FString("Gameplay Effect tag to apply hit reaction when damage is received")
+	);
 }

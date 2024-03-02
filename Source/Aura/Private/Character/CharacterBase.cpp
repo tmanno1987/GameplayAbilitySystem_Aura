@@ -71,3 +71,8 @@ void ACharacterBase::AddCharacterAbilities()
 
 	AuraASC->AddCharactersAbilities(StartupAbilities);
 }
+
+UAnimMontage* ACharacterBase::GetHitReactMontage_Implementation()
+{
+	return HitReactMontage;
+}

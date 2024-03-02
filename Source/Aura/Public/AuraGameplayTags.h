@@ -50,6 +50,10 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 
+	/* Gameplay Effects */
+
+	FGameplayTag Effect_HitReaction;
+
 private:
 	static FAuraGameplayTags GameplayTags;
 };
