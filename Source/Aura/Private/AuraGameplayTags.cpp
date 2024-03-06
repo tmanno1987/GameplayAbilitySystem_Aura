@@ -95,6 +95,59 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Amount of incoming damage for an attack")
 	);
 
+	GameplayTags.Attributes_Meta_Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.Damage.Fire"),
+		FString("Amount of incoming Fire damage")
+	);
+
+	GameplayTags.Attributes_Meta_Damage_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.Damage.Lightning"),
+		FString("Amount of incoming Lightning damage")
+	);
+
+	GameplayTags.Attributes_Meta_Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.Damage.Arcane"),
+		FString("Amount of incoming Arcane damage")
+	);
+
+	GameplayTags.Attributes_Meta_Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.Damage.Physical"),
+		FString("Amount of incoming Physical damage")
+	);
+
+	/**
+	 *	Resistance Tags
+	 */
+
+	GameplayTags.Attributes_Resistance_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Resistance.Fire"),
+		FString("Resistance to Fire damage")
+	);
+
+	GameplayTags.Attributes_Resistance_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Resistance.Arcane"),
+		FString("Resistance to Arcane damage")
+	);
+
+	GameplayTags.Attributes_Resistance_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Resistance.Lightning"),
+		FString("Resistance to Lightning damage")
+	);
+
+	GameplayTags.Attributes_Resistance_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Resistance.Physical"),
+		FString("Resistance to Physical damage")
+	);
+
+	/**
+	 *	Map of damage types to resistances
+	 */
+
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Attributes_Meta_Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Attributes_Meta_Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Attributes_Meta_Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Attributes_Meta_Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
+
 	/**
 	 *	Input Tags
 	 */
