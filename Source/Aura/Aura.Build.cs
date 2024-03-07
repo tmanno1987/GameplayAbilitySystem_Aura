@@ -15,7 +15,7 @@ public class Aura : ModuleRules
             "Niagara"
         });
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule" });
 
         // used for debugging
         OptimizeCode = CodeOptimization.Never;
