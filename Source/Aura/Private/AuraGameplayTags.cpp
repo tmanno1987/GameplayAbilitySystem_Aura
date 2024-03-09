@@ -190,4 +190,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Effect.HitReaction"),
 		FString("Gameplay Effect tag to apply hit reaction when damage is received")
 	);
+
+	/**
+	 *	Gameplay Abilities
+	 */
+
+	GameplayTags.Ability_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Ability.Attack"),
+		FString("Attack Ability Tag")
+	);
 }
