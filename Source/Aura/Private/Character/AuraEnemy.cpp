@@ -23,6 +23,11 @@ AAuraEnemy::AAuraEnemy()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
@@ -35,9 +40,11 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 
 	if (!HasAuthority()) return;
 	AuraAIController = Cast<AAuraAIController>(NewController);
-
 	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	AuraAIController->RunBehaviorTree(BehaviorTree);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReact"), false);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
+
 }
 
 void AAuraEnemy::HighlightActor()
@@ -108,6 +115,7 @@ void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallTag, int32 Count)
 {
 	bHitReact = Count > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReact ? 0.f : BaseWalkSpeed;
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReact"), bHitReact);
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
