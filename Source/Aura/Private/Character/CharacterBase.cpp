@@ -6,6 +6,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Aura/Aura.h"
+#include "AuraGameplayTags.h"
 
 
 ACharacterBase::ACharacterBase()
@@ -54,13 +55,28 @@ void ACharacterBase::MulticastHandleDeath_Implementation()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CombatSockets = TMap<FGameplayTag, FName>();
 }
 
-FVector ACharacterBase::GetCombatSocketLocation_Implementation()
+FVector ACharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	// Learn more about maps
+	//return Weapon->GetSocketLocation(CombatSockets.Find(&MontageTag));
+	
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return Weapon->GetSocketLocation(LeftHandSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	{
+		return Weapon->GetSocketLocation(RightHandSocketName);
+	}
+	return FVector();
 }
 
 bool ACharacterBase::IsDead_Implementation() const
@@ -71,6 +87,11 @@ bool ACharacterBase::IsDead_Implementation() const
 AActor* ACharacterBase::GetAvatar_Implementation()
 {
 	return this;
+}
+
+TArray<FTaggedMontage> ACharacterBase::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
 }
 
 void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
