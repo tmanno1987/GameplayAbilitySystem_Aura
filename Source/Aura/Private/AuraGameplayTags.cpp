@@ -199,4 +199,23 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Ability.Attack"),
 		FString("Attack Ability Tag")
 	);
+
+	/**
+	 *	Gameplay Abilities
+	 */
+
+	GameplayTags.Montage_Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Montage.Attack.Weapon"),
+		FString("Socket location for weapons")
+	);
+
+	GameplayTags.Montage_Attack_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Montage.Attack.RightHand"),
+		FString("Socket location for weapons that are right hand specific")
+	);
+
+	GameplayTags.Montage_Attack_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Montage.Attack.LeftHand"),
+		FString("Socket location for weapons that are left hand specific")
+	);
 }

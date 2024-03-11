@@ -18,14 +18,12 @@ public:
 	static void InitializeNativeGameplayTags();
 
 	/* Primary Attributes */
-
 	FGameplayTag Attributes_Primary_Strength;
 	FGameplayTag Attributes_Primary_Intelligence;
 	FGameplayTag Attributes_Primary_Resilience;
 	FGameplayTag Attributes_Primary_Vigor;
 
 	/* Secondary Attributes */
-
 	FGameplayTag Attributes_Secondary_Armor;
 	FGameplayTag Attributes_Secondary_ArmorPenetration;
 	FGameplayTag Attributes_Secondary_BlockChance;
@@ -38,14 +36,12 @@ public:
 	FGameplayTag Attributes_Secondary_MaxMana;
 
 	/* Resistance Attributes */
-
 	FGameplayTag Attributes_Resistance_Fire;
 	FGameplayTag Attributes_Resistance_Lightning;
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
 
 	/* Meta Attributes */
-
 	FGameplayTag Attributes_Meta_Damage;
 	FGameplayTag Attributes_Meta_Damage_Fire;
 	FGameplayTag Attributes_Meta_Damage_Lightning;
@@ -53,10 +49,8 @@ public:
 	FGameplayTag Attributes_Meta_Damage_Physical;
 
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
-	//TArray<FGameplayTag> DamageTypes;
 
 	/* Input Configs */
-
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_1;
@@ -65,11 +59,15 @@ public:
 	FGameplayTag InputTag_4;
 
 	/* Gameplay Effects */
-
 	FGameplayTag Effect_HitReaction;
 
 	/* Gameplay Ability */
 	FGameplayTag Ability_Attack;
+
+	/* Socket Location */
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_LeftHand;
 
 private:
 	static FAuraGameplayTags GameplayTags;
