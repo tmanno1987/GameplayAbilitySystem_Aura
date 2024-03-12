@@ -99,6 +99,4 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	TMap<FGameplayTag, FName> CombatSockets;
 };

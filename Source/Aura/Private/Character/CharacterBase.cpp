@@ -55,14 +55,11 @@ void ACharacterBase::MulticastHandleDeath_Implementation()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	CombatSockets = TMap<FGameplayTag, FName>();
 }
 
 FVector ACharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
-	// Learn more about maps
-	//return Weapon->GetSocketLocation(CombatSockets.Find(&MontageTag));
 	
 	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
 	{
