@@ -219,6 +219,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Socket location for weapons that are left hand specific")
 	);
 
+	GameplayTags.CombatSocket_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("CombatSocket.Tail"),
+		FString("Socket location for attacks involving an enemies tail.")
+	);
+
 	/**
 	 *	Attack Montages
 	 */

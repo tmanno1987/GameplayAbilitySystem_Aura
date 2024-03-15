@@ -68,13 +68,17 @@ FVector ACharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTa
 	{
 		return Weapon->GetSocketLocation(WeaponTipSocketName);
 	}
-	if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_LeftHand) && !IsValid(Weapon))
+	if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_LeftHand))
 	{
-		return Weapon->GetSocketLocation(LeftHandSocketName);
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
 	}
-	if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_RightHand) && !IsValid(Weapon))
+	if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_RightHand))
 	{
-		return Weapon->GetSocketLocation(RightHandSocketName);
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_Tail))
+	{
+		return GetMesh()->GetSocketLocation(TailSocketName);
 	}
 	return FVector();
 }
