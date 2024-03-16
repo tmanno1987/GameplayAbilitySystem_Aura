@@ -63,6 +63,7 @@ public:
 
 	/* Gameplay Ability */
 	FGameplayTag Ability_Attack;
+	FGameplayTag Ability_Summon;
 
 	/* Socket Location */
 	FGameplayTag CombatSocket_Weapon;
