@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
 #include "OverlayWidgetController.generated.h"
+
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
@@ -63,6 +65,9 @@ public:
 	UPROPERTY(BluePrintAssignable, Category = "GAS|Messages")
 	FAbilityInfoSignature AbilityInfoDelegate;
 
+	UPROPERTY(BluePrintAssignable, Category = "GAS|XP")
+	FOnAttributeChangedSignature LevelupInfoDelegate;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widget Data")
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
@@ -74,6 +79,8 @@ protected:
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
 	void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC);
+
+	void OnXPChanged(int32 NewXP) const;
 };
 
 template<typename T>
