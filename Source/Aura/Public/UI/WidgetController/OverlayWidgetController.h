@@ -67,7 +67,7 @@ public:
 	FAbilityInfoSignature AbilityInfoDelegate;
 
 	UPROPERTY(BluePrintAssignable, Category = "GAS|Leveling")
-	FOnAttributeChangedSignature LevelupInfoDelegate;
+	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
 
 	UPROPERTY(BluePrintAssignable, Category = "GAS|Leveling")
 	FOnPlayerStatChangedSignature OnPlayerLevelChangedDelegate;

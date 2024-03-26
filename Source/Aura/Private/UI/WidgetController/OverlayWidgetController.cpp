@@ -21,7 +21,6 @@ void UOverlayWidgetController::BroadcastInitialValues()
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
-	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 	AuraPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	
 	AuraPlayerState->OnLevelChangedDelegate.AddLambda(
@@ -29,6 +28,8 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
 		}
 	);
+
+	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetHealthAttribute()).AddLambda(
 		[this] (const FOnAttributeChangeData& Data) {
@@ -119,6 +120,6 @@ void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
 
 		const float XPBarPercent = static_cast<float>(RequiredXP) / static_cast<float>(DeltaLevelRequirement);
 
-		LevelupInfoDelegate.Broadcast(XPBarPercent);
+		OnXPPercentChangedDelegate.Broadcast(XPBarPercent);
 	}
 }

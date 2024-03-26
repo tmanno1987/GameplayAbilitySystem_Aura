@@ -205,36 +205,36 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			const bool bCrit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 			ShowFloatingText(Props, LocalDamage, bBlock, bCrit);
 		}
-		if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+	}
+	if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+	{
+		const float LocalXP = GetIncomingXP();
+		SetIncomingXP(0.f);
+
+		// Source Character is the owner, since GA_ListenForEvents applies GE_EventBasedEffect, adding to IncomingXP
+		if (Props.SourceCharacter->Implements<UPlayerInterface>() && Props.SourceCharacter->Implements<UCombatInterface>())
 		{
-			const float LocalXP = GetIncomingXP();
-			SetIncomingXP(0.f);
+			const int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(Props.SourceCharacter);
+			const int32 CurrentXP = IPlayerInterface::Execute_GetXP(Props.SourceCharacter);
 
-			// Source Character is the owner, since GA_ListenForEvents applies GE_EventBasedEffect, adding to IncomingXP
-			if (Props.SourceCharacter->Implements<UPlayerInterface>() && Props.SourceCharacter->Implements<UCombatInterface>())
+			const int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(Props.SourceCharacter, CurrentXP + LocalXP);
+			const int32 NumLevelUps = NewLevel - CurrentLevel;
+
+			if (NumLevelUps > 0)
 			{
-				const int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(Props.SourceCharacter);
-				const int32 CurrentXP = IPlayerInterface::Execute_GetXP(Props.SourceCharacter);
+				const int32 AttributePoints = IPlayerInterface::Execute_GetAttributePointReward(Props.SourceCharacter, CurrentLevel);
+				const int32 SpellPoints = IPlayerInterface::Execute_GetSpellPointReward(Props.SourceCharacter, CurrentLevel);
 
-				const int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(Props.SourceCharacter, CurrentXP + LocalXP);
-				const int32 NumLevelUps = NewLevel - CurrentLevel;
+				IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumLevelUps);
+				IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePoints);
+				IPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPoints);
 
-				if (NumLevelUps > 0)
-				{
-					const int32 AttributePoints = IPlayerInterface::Execute_GetAttributePointReward(Props.SourceCharacter, CurrentLevel);
-					const int32 SpellPoints = IPlayerInterface::Execute_GetSpellPointReward(Props.SourceCharacter, CurrentLevel);
+				SetMana(GetMaxMana());
+				SetHealth(GetMaxHealth());
 
-					IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumLevelUps);
-					IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePoints);
-					IPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPoints);
-
-					SetMana(GetMaxMana());
-					SetHealth(GetMaxHealth());
-
-					IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
-				}
-				IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalXP);
+				IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
 			}
+			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalXP);
 		}
 	}
 }
