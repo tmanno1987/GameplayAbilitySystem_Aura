@@ -9,9 +9,11 @@
 #include "Net/UnrealNetwork.h"
 #include "AuraGameplayTags.h"
 #include "Interaction/CombatInterface.h"
-#include <Player/AuraPlayerController.h>
-#include <Kismet/GameplayStatics.h>
+#include "Player/AuraPlayerController.h"
+#include "Kismet/GameplayStatics.h"
+#include "Aura/AuraLogChannels.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Interaction/PlayerInterface.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -143,6 +145,21 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 	}
 }
 
+void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
+{
+	if (Props.TargetCharacter->Implements<UCombatInterface>())
+	{
+		const int32 TargetLevel = ICombatInterface::Execute_GetPlayerLevel(Props.TargetCharacter);
+		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
+		const int32 RewardXP = UAuraAbilitySystemLibrary::GetXPReward(Props.TargetCharacter, TargetClass, TargetLevel);
+
+		const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+		FGameplayEventData Payload;
+		Payload.EventTag = GameplayTags.Attributes_Meta_IncomingXP;
+		Payload.EventMagnitude = RewardXP;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter, GameplayTags.Attributes_Meta_IncomingXP, Payload);
+	}
+}
 
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
@@ -175,6 +192,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 				
 				if (CombatInterface) CombatInterface->Die();
+
+				SendXPEvent(Props);
 			}
 			else
 			{
@@ -185,6 +204,17 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			const bool bBlock = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
 			const bool bCrit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 			ShowFloatingText(Props, LocalDamage, bBlock, bCrit);
+		}
+		if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+		{
+			const float LocalXP = GetIncomingXP();
+			SetIncomingXP(0.f);
+
+			//TODO: See if we should level up
+			if (Props.SourceCharacter->Implements<UPlayerInterface>())
+			{
+				IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalXP);
+			}
 		}
 	}
 }

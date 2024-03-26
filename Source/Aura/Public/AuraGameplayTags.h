@@ -42,6 +42,8 @@ public:
 	FGameplayTag Attributes_Resistance_Physical;
 
 	/* Meta Attributes */
+	FGameplayTag Attributes_Meta_IncomingXP;
+
 	FGameplayTag Attributes_Meta_Damage;
 	FGameplayTag Attributes_Meta_Damage_Fire;
 	FGameplayTag Attributes_Meta_Damage_Lightning;

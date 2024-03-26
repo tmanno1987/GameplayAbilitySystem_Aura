@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
 
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
+	static int32 GetXPReward(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 Level);
+
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);
 
@@ -54,4 +57,5 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameMechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
+
 };

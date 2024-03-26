@@ -126,6 +126,11 @@ void ACharacterBase::IncrementMinionCount_Implementation(int32 Amount)
 	MinionCount += Amount;
 }
 
+ECharacterClass ACharacterBase::GetCharacterClass_Implementation()
+{
+	return CharacterClass;
+}
+
 void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));
@@ -155,6 +160,7 @@ void ACharacterBase::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 
 	AuraASC->AddCharactersAbilities(StartupAbilities);
+	AuraASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
 }
 
 void ACharacterBase::Dissolve()

@@ -37,6 +37,7 @@ public:
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
+	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	/** end Combat Interface */
 
 	UFUNCTION(NetMulticast, Reliable)
@@ -83,9 +84,7 @@ protected:
 	virtual void InitializeDefaultAttributes() const;
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 	virtual void InitAbilityActorInfo();
-
 	void AddCharacterAbilities();
-
 	void Dissolve();
 
 	UFUNCTION(BlueprintImplementableEvent)
@@ -106,12 +105,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	USoundBase* DeathSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	ECharacterClass CharacterClass = ECharacterClass::Warrior;
+
 	/* Minions */
 	int32 MinionCount = 0;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupPassiveAbilities;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
