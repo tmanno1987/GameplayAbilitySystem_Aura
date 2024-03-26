@@ -31,6 +31,7 @@ class UAbilityInfo;
 class UAuraAbilitySystemComponent;
 struct FAuraAbilityInfo;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangedSignature, int32, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FAuraAbilityInfo&, Info);
@@ -65,8 +66,11 @@ public:
 	UPROPERTY(BluePrintAssignable, Category = "GAS|Messages")
 	FAbilityInfoSignature AbilityInfoDelegate;
 
-	UPROPERTY(BluePrintAssignable, Category = "GAS|XP")
+	UPROPERTY(BluePrintAssignable, Category = "GAS|Leveling")
 	FOnAttributeChangedSignature LevelupInfoDelegate;
+
+	UPROPERTY(BluePrintAssignable, Category = "GAS|Leveling")
+	FOnPlayerStatChangedSignature OnPlayerLevelChangedDelegate;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widget Data")
